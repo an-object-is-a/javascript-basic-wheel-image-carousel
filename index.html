@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .wheel {
+            width: 300px;
+            height: 200px;
+            /* background-color: blue; */
+
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .card {
+            /* width: 90px;
+            height: 50px;
+            background-color: red; */
+
+
+            border-radius: 100px;
+            box-shadow: 10px 10px 8px black;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wheel">
+        <img src="./160-200x200.jpg" class="card">
+        <img src="./235-200x200.jpg" class="card">
+        <img src="./308-200x200.jpg" class="card">
+        <img src="./404-200x200.jpg" class="card">
+        <!-- <img src="./460-200x200.jpg" class="card"> -->
+        <img src="./icon-round-1080-with-shadow.png" style="border-radius: 0; box-shadow: none; height: 250px; width: 250px;" class="card">
+        <img src="./767-200x200.jpg" class="card">
+        <img src="./867-200x200.jpg" class="card">
+        <img src="./971-200x200.jpg" class="card">
+        <!-- <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div> -->
+    </div>
+    <script>
+        let theta = Math.PI / 4.0;
+        let new_theta = 0.0;
+        let new_x = 0.0;
+        let new_y = 0.0;
+        let wheel_radius = 250.00;
+        let wheel_theta = 0.0;
+        const cards = document.querySelectorAll('.card');
+        const wheel = document.querySelector('.wheel');
+        const center = {
+            x: parseFloat(getComputedStyle(cards[0]).left),
+            y: parseFloat(getComputedStyle(cards[0]).top)
+        }
+
+        cards.forEach((card, index) => {
+            new_theta = theta * index;
+            new_x = (Math.cos(new_theta) * wheel_radius);
+            new_y = (-1.0 * Math.sin(new_theta) * wheel_radius);
+
+            card.style.left = `${center.x + new_x}px`;
+            card.style.top = `${center.y + new_y}px`;
+        });
+
+        document.addEventListener('wheel', event => {
+            let scroll_speed = event.deltaY * 0.002;
+            wheel_theta = wheel_theta + scroll_speed;
+            wheel.style.transform = `translate(-50%, -50%) rotate(${wheel_theta * (180/Math.PI)}deg)`;
+        });
+    </script>
+</body>
+
+</html>
